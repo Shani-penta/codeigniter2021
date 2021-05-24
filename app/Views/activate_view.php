@@ -16,6 +16,11 @@
 <?= $error; ?>
 </div>
 <?php endif; ?>
+<?php if(isset($success)) : ?>
+<div class="aler-success">
+<?= $success; ?>
+</div>
+<?php endif; ?>
 </div>
 
 <?=  $this->endSection(); ?>

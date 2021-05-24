@@ -12,6 +12,7 @@ class Register extends Controller
      public $email;
     public function __construct() {
         helper("form");
+        helper("date");
         $this->registerModel = new RegisterModel();
          $this->session = \Config\Services::session();
         $this->email = \Config\Services::email();
@@ -45,7 +46,7 @@ class Register extends Controller
                         $to =  $this->request->getVar('email');
                        $subject = 'Email sending';
                         $message = "Hi thanks, for your test mail"
-                        .  "<a href='". base_url()."/register/activate/".$uniid."'>Activate Link </a>";
+                        .  "<a href='http://localhost/mynewcodeig/register/activate/".$uniid."'>Activate Link </a>";
                         // $email = \Config\Services::email();
                         $this->email->setTo($to);
                         $this->email->setFrom('shanimolschikku@gmail.com', 'test');
@@ -85,19 +86,55 @@ class Register extends Controller
 
     public function activate($uniid=null) 
     {
-        $data=[];
+        $data=[];       
         if(!empty($uniid)) {
-            echo "dsfdg";
-            return view("activate_view",  $data);
 
-        $data = $this->registerModel->verifyUniid($uniid);
-        // echo $this->registerModel->verifyUniid($uniid);
-        print_r($data);
-        exit;
-        //  $this->registerModel->verifyUniid($uniid);
+        $userdata = $this->registerModel->verifyUniid($uniid); 
+           
+        if($userdata){
+              if($this->verifyExpiryTime($userdata->activation_date)){
+                if($userdata[0]->status == 'inactive')
+                {  
+                 $status = $this->registerModel->updateStatus($uniid);
+                if($status == true) 
+                {
+                 $data['success'] ='Account activated sucessfully';
+ 
+                }
+              
+              
+                }
+                else {
+              $data['success'] ='Your account is activated';
+   
+                }
+                }
+                else{
+                    $data['error'] ='Sorry! Activate link experied';
+        
+                }
+           
+            }
+        else{
+            $data['error'] ='Sorry! unable to find your account';
+ 
+           }
+      
         }else{
             $data['error'] ='Sorry! unable to process your request';
         }
         return view("activate_view",  $data);
+    }
+    public function verifyExpiryTime($regTime) 
+    {
+        $currTime = now();
+        $regTime =strtotime($regTime);
+        $diffTime  = (int)$currTime - (int)$regTime;
+        if(3600 < $diffTime) {
+            return  true;
+        }else{
+            return false;
+        }
+
     }
 }

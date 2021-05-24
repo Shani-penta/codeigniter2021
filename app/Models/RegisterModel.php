@@ -27,14 +27,33 @@ class RegisterModel extends Model
     public function verifyUniid($id)
     {
         $builder = $this->db->table('users');
-        $builder->select('activation_date,uniid,status');
-        $builder->where('uniid',$id);  
-        $result = $builder->get();
-        if($builder->countAll() == 1){
-            return $result->getRow();
+          $sql =$builder->getWhere(['uniid' => $id]);
+          $result = $sql->getResult();
+        //   print_r($result);
+        //    $builder->where('uniid',$id);  
+
+        // $builder->where('uniid',$id);  
+        // $result = $builder->get();
+        
+        if(count($result) == 1){
+            return $result;
         }
         else{
             return false;
         }
     }
+
+        public function updateStatus($uniid){
+          $builder = $this->db->table('users');
+          $builder->set('status', 'active');   
+          $builder->where('uniid',$uniid); 
+          $builder->update();
+           if($this->db->affectedRows() == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+        }
+
 }
