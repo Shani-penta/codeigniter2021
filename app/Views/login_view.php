@@ -18,15 +18,24 @@
        
             <div class="col-md-6">
 				<h3 class="dark-grey">Login</h3>
+                <?php  if(isset($validation)) : ?>
+                <div class="aler-alert-danger">
+                <?= $validation->listErrors(); ?>
+                 </div>
+                <?php  endif; ?>
+                <?php if(session()->getTempdata('error')): ?>
+                <div class="alert alert-danger"><?= session()->getTempdata('error'); ?></div>
+                                <?php  endif; ?>
+
 				<?= form_open(); ?>
                 
                   <div class="form-group">
-                     <label>User Name</label>
-                     <input type="text" class="form-control" placeholder="User Name">
+                     <label>email</label>
+                     <input type="email" name="email" class="form-control" placeholder="email">
                   </div>
                   <div class="form-group">
                      <label>Password</label>
-                     <input type="password" class="form-control" placeholder="Password">
+                     <input type="password" name="password" class="form-control" placeholder="Password">
                   </div>
                   <button type="submit" class="btn btn-black">Login</button>
                   <button type="submit" class="btn btn-secondary">Register</button>
