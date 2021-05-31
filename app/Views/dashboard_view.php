@@ -13,7 +13,16 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-               <h1>Welcome to Test user</h1>
+            <?php $pic = ($userdata->profile_pic);
+            if($pic !='') { ?>
+            <img src  ='#'; height  ="60"; >
+            <?php }else{ ?>
+            <img src  ='<?= base_url(); ?>/public\assets\images\avatar.jpg';  height  ="60"; >
+            <?php } ?>
+               <h1>Welcome to <?= ucfirst($userdata->username);?></h1>
+               <h4>Number : <?= ucfirst($userdata->mobile);?></h4>
+               <h4>Email : <?= ucfirst($userdata->email);?></h4>
+
               <a href="<?= base_url() ?>/dashboard/logout">Logout</a>
             </div>
         </div>

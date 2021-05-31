@@ -73,10 +73,21 @@
 							
 								<li class="nav-item"> <a href="<?= base_url(); ?>/contact">Contact Us</a>
 								</li>
+								<?php if(session()->has('logged_user')): ?>
+								<li class="nav-item dropdown"> <a class="dropdown-menu" href="<?= base_url(); ?>/dashboard">Dashboard</a>
+								</li>
+								<li class="nav-item"> <a href="#">Edit</a>
+								</li>
+								<li class="nav-item"> <a href="#">Change password</a>
+								</li>
+								<li class="nav-item"> <a href="<?= base_url(); ?>/dashboard/logout">Logout</a>
+								</li>
+								<?php else: ?>
 								<li class="nav-item"> <a href="<?= base_url(); ?>/register">Register</a>
 								</li>
 								<li class="nav-item"> <a href="<?= base_url(); ?>/login">Login</a>
 								</li>
+								<?php endif; ?>
 							</ul>
 						</div>
 					</nav>
