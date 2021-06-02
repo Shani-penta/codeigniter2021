@@ -22,20 +22,19 @@ class LoginModel extends Model
     }
 
 
-  public function saveLoginInfo($loginInfo)
+  public function saveLoginInfo($loginInfo, $userdata, $agent)
     {  
 
+        // print_r($userdata);
+        $uniid = $userdata[0]->uniid;
+          $ip = $_SERVER['REMOTE_ADDR'];
 
             $builder = $this->db->table("login_activity");
 
-
-            echo "tewwwwsdddt";
-        print_r($userdata);
-        print_r($loginInfo);
         $data = [
-            "uniid" => "User 1",
-            "agent" => "user1@gmail.com",
-            "ip" => "8888888888",
+            "uniid" => $uniid,
+            "agent" => $agent,
+            "ip" => $ip,
             "login_time" => date('Y-m-d h:i:s'),
         ];
 
@@ -45,7 +44,6 @@ class LoginModel extends Model
 
 
     }
-
 
 
 
